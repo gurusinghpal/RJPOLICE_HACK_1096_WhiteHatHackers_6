@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>GEOTAGGING</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+        }
+
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+
+        #city,
+        #switchView {
+            border-radius: 8px;
+            background-color: white;
+            color: black;
+            border: crimson;
+            padding: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #bottom-content {
+            text-align: center;
+            padding: 10px 20px; /* Increased padding for a wider strip */
+            background-color: #f2f2f2;
+            color: crimson;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #switchView.satellite {
+            color: green;
+        }
+
+        #switchView.terrain {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <div id="controls">
+        <button id="switchView">Switch View</button>
+        <button id="city">City</button>
+    </div>
+
+    <div id="bottom-content">
+        Made by DIGITAL DEFENDERS with ❤️
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBCOwbXxB7j5uN1YXNo_tHEKhuwNf2_i4&callback=initMap"
+        async defer></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
