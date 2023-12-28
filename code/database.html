@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Videos</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLHqLWpPtzPBw2wRkxthzKEwCxMsCHmUGMSQ&usqp=CAU");
+            background-size: cover;
+            transition: background-color 0.5s ease;
+            filter: blur(-1px);
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px;
+            background-color: #366aa9;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgb(0, 247, 255), 0px 0px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+        }
+
+        button:hover {
+            box-shadow: 0px 0px 20px 0px rgb(0, 247, 255), 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="redirectToStorage()">Access Video Footages</button>
+
+    <script>
+        // Define the expected authorization code
+        var expectedAuthorizationCode = '2580';
+
+        function redirectToStorage() {
+            // Simulating basic authorization prompt
+            var userAuthorization = prompt('Please enter the authorization code:');
+
+            // Check if the authorization code is not empty
+            if (userAuthorization !== null && userAuthorization.trim() === expectedAuthorizationCode) {
+                // Simulate success by changing background color to green after a delay
+                setTimeout(function () {
+                    document.body.style.backgroundColor = '#fff';
+                    // Redirect the user to the storage URL after another delay
+                    setTimeout(function () {
+                        window.location.href = 'https://www.playbook.com/s/forfree/dMbbWrVpsvdT2qTqFWUE3akh';
+                    }, 500);
+                }, 500);
+            } else {
+                // Simulate failure by changing background color to red immediately
+                document.body.style.backgroundColor = '#FF5733';
+                alert('Wrong Authorization Code!');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -62,12 +62,13 @@ function addMarker(map, markerData) {
     });
 
     const infoWindow = new google.maps.InfoWindow({
-        content: `<div>
+        content: `<div style = "text-align: center;">
                     <strong>${markerData.title}</strong><br>
                     Username: ${markerData.Username}<br>
                     House No.: ${markerData.HouseNo}<br>
                     Camera Info: ${markerData.CameraInfo}<br>
                     <div><button style="background-color: red; color: white; margin-top: 10px;" onclick="alert('Calling now...'); window.location.href='tel:1234567890';">Call Now</button></div>
+                    <div><button style="background-color: blue; color: white; margin-top: 10px; margin-left: 5px;" onclick="window.location.href='database.html';">Access Videos</button></div>
                 </div>`
     });
 
