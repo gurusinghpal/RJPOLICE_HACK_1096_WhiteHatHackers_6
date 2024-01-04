@@ -15,18 +15,30 @@ function initMap() {
         mapTypeId: 'satellite'
     });
 
-        document.getElementById('city').addEventListener('click', function() {
+    document.getElementById('city').addEventListener('click', function () {
         let city = prompt('Please enter a city name:');
         if (city) {
-            let geocoder = new google.maps.Geocoder();
-            geocoder.geocode({'address': city}, function(results, status) {
-                if (status === 'OK') {
-                    map.setCenter(results[0].geometry.location);
-                    map.setZoom(14);
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
+            // Use OpenStreetMap Nominatim API for geocoding
+            const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${city}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const cityLocation = {
+                            lat: parseFloat(data[0].lat),
+                            lng: parseFloat(data[0].lon)
+                        };
+
+                        map.setCenter(cityLocation);
+                        map.setZoom(14);
+                    } else {
+                        alert('City not found');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         }
     });
 
