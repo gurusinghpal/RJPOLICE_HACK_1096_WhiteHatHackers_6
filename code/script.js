@@ -5,6 +5,32 @@ const markersData = [
     { position: { lat: 22.5726, lng: 88.3639 }, title: 'Kolkata', Username: 'User4', HouseNo: '101', CameraInfo: 'Camera D' }
 ];
 
+// Function for smooth zoom
+function smoothZoom(map, targetLocation, targetZoom) {
+    const currentZoom = map.getZoom();
+    const zoomStep = (targetZoom - currentZoom) / 15;
+
+    const smoothZoomInterval = setInterval(() => {
+        if (map.getZoom() < targetZoom) {
+            map.setZoom(map.getZoom() + zoomStep);
+        } else {
+            clearInterval(smoothZoomInterval);
+        }
+    }, 200);
+
+    const smoothPanInterval = setInterval(() => {
+        const currentCenter = map.getCenter();
+        const newLat = currentCenter.lat() + (targetLocation.lat - currentCenter.lat()) / 15;
+        const newLng = currentCenter.lng() + (targetLocation.lng - currentCenter.lng()) / 15;
+        map.panTo(new google.maps.LatLng(newLat, newLng));
+    }, 200);
+
+    setTimeout(() => {
+        clearInterval(smoothZoomInterval);
+        clearInterval(smoothPanInterval);
+    }, 800 * 15);
+}
+
 let map; // Declare map variable in the global scope
 
 function initMap() {
@@ -30,8 +56,10 @@ function initMap() {
                             lng: parseFloat(data[0].lon)
                         };
 
+                        smoothZoom(map, cityLocation, 14);
+
                         map.setCenter(cityLocation);
-                        map.setZoom(14);
+                        //map.setZoom(14);
                     } else {
                         alert('City not found');
                     }
@@ -41,6 +69,8 @@ function initMap() {
                 });
         }
     });
+
+
 
     // Add markers with info windows
     markersData.forEach(markerData => {
@@ -101,12 +131,12 @@ function addMarker(map, markerData) {
                 clearInterval(zoomInterval);
             }
         }, 200);
-            // Center the map on the clicked marker
-            map.panTo(marker.getPosition());
+        // Center the map on the clicked marker
+        map.panTo(marker.getPosition());
 
-            // Open the info window
-            infoWindow.open(map, marker);
-        });
+        // Open the info window
+        infoWindow.open(map, marker);
+    });
 }
 
 function handleFullscreenChange() {
