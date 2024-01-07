@@ -104,7 +104,7 @@ function addMarker(map, markerData) {
     });
 
     const infoWindow = new google.maps.InfoWindow({
-        content: `<div style = "text-align: center;">
+        content: `<div style = "text-align: center; color: black">
                     <strong>${markerData.title}</strong><br>
                     Username: ${markerData.Username}<br>
                     House No.: ${markerData.HouseNo}<br>
@@ -160,14 +160,7 @@ document.addEventListener('mozfullscreenchange', handleFullscreenChange);
 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 document.addEventListener('msfullscreenchange', handleFullscreenChange);
 
-
-
-
-
-//         // Center the map on the clicked marker
-//         map.panTo(marker.getPosition());
-
-//         // Open the info window
-//         infoWindow.open(map, marker);
-//     });
-// }
+setTimeout(function () {
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('map').style.display = 'block';
+}, 3000); 
