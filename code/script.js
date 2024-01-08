@@ -1,6 +1,6 @@
 const markersData = [
     { position: { lat: 28.6139, lng: 77.2090 }, title: 'New Delhi', Username: 'User1', HouseNo: '123', CameraInfo: 'Camera A' },
-    { position: { lat: 19.0760, lng: 72.8777 }, title: 'Mumbai', Username: 'User2', HouseNo: '456', CameraInfo: 'Camera B' },
+    { position: { lat: 28.0167, lng: 73.3667 }, title: 'Mumbai', Username: 'User2', HouseNo: '456', CameraInfo: 'Camera B' },
     { position: { lat: 12.9716, lng: 77.5946 }, title: 'Bengaluru', Username: 'User3', HouseNo: '789', CameraInfo: 'Camera C' },
     { position: { lat: 22.5726, lng: 88.3639 }, title: 'Kolkata', Username: 'User4', HouseNo: '101', CameraInfo: 'Camera D' }
 ];
