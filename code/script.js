@@ -1,14 +1,9 @@
-const markersData = [
-    { position: { lat: 28.6139, lng: 77.2090 }, title: 'New Delhi', Username: 'User1', HouseNo: '123', CameraInfo: 'Camera A' },
-    { position: { lat: 28.0167, lng: 73.3667 }, title: 'Mumbai', Username: 'User2', HouseNo: '456', CameraInfo: 'Camera B' },
-    { position: { lat: 12.9716, lng: 77.5946 }, title: 'Bengaluru', Username: 'User3', HouseNo: '789', CameraInfo: 'Camera C' },
-    { position: { lat: 22.5726, lng: 88.3639 }, title: 'Kolkata', Username: 'User4', HouseNo: '101', CameraInfo: 'Camera D' }
-];
+let map;
+let infoWindow; // Declare infoWindow globally
 
-// Function for smooth zoom
-function smoothZoom(map, targetLocation, targetZoom) {
+function smoothZoom(map, targetZoom) {
     const currentZoom = map.getZoom();
-    const zoomStep = (targetZoom - currentZoom) / 15;
+    const zoomStep = (targetZoom - currentZoom) / 18;
 
     const smoothZoomInterval = setInterval(() => {
         if (map.getZoom() < targetZoom) {
@@ -18,20 +13,10 @@ function smoothZoom(map, targetLocation, targetZoom) {
         }
     }, 200);
 
-    const smoothPanInterval = setInterval(() => {
-        const currentCenter = map.getCenter();
-        const newLat = currentCenter.lat() + (targetLocation.lat - currentCenter.lat()) / 15;
-        const newLng = currentCenter.lng() + (targetLocation.lng - currentCenter.lng()) / 15;
-        map.panTo(new google.maps.LatLng(newLat, newLng));
-    }, 200);
-
     setTimeout(() => {
         clearInterval(smoothZoomInterval);
-        clearInterval(smoothPanInterval);
-    }, 800 * 15);
+    }, 200 * 15);
 }
-
-let map; // Declare map variable in the global scope
 
 function initMap() {
     const center = { lat: 20.5937, lng: 78.9629 };
@@ -44,7 +29,6 @@ function initMap() {
     document.getElementById('city').addEventListener('click', function () {
         let city = prompt('Please enter a city name:');
         if (city) {
-            // Use OpenStreetMap Nominatim API for geocoding
             const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${city}`;
 
             fetch(apiUrl)
@@ -56,10 +40,8 @@ function initMap() {
                             lng: parseFloat(data[0].lon)
                         };
 
-                        smoothZoom(map, cityLocation, 14);
-
                         map.setCenter(cityLocation);
-                        //map.setZoom(14);
+                        smoothZoom(map, 14);
                     } else {
                         alert('City not found');
                     }
@@ -70,15 +52,45 @@ function initMap() {
         }
     });
 
+    fetch('http://localhost:3000/data')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const marker = new google.maps.Marker({
+                    position: { lat: item.Latitude, lng: item.Longitude },
+                    map: map,
+                    title: item.Location_name
+                });
 
+                marker.addListener('click', () => {
+                    const targetZoom = 18;
+                    const targetLocation = marker.getPosition();
 
-    // Add markers with info windows
+                    map.panTo(targetLocation);
+                    smoothZoom(map, targetZoom);
+
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `
+                            <div style="text-align: center; color: black;">
+                                <h3>${item.Location_name}</h3>
+                                <p>Camera Model: ${item.Camera_model}</p>
+                                <p>Owner: ${item.Owner_name}</p>
+                            </div>
+                        `
+                    });
+
+                    infoWindow.open(map, marker);
+                });
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    // Assuming you have markersData and addMarker function defined
     markersData.forEach(markerData => {
         addMarker(map, markerData);
     });
 }
 
-// Function to add a marker to the map
 function addMarker(map, markerData) {
     const marker = new google.maps.Marker({
         position: markerData.position,
@@ -87,74 +99,48 @@ function addMarker(map, markerData) {
         icon: markerData.iconUrl || null
     });
 
-    let isSatelliteView = true;
-
-    document.getElementById('switchView').addEventListener('click', function () {
-        if (isSatelliteView) {
-            map.setMapTypeId('terrain');
-            this.classList.remove('satellite');
-            this.classList.add('terrain');
-            isSatelliteView = false;
-        } else {
-            map.setMapTypeId('satellite');
-            this.classList.remove('terrain');
-            this.classList.add('satellite');
-            isSatelliteView = true;
-        }
-    });
-
-    const infoWindow = new google.maps.InfoWindow({
-        content: `<div style = "text-align: center; color: black">
-                    <strong>${markerData.title}</strong><br>
-                    Username: ${markerData.Username}<br>
-                    House No.: ${markerData.HouseNo}<br>
-                    Camera Info: ${markerData.CameraInfo}<br>
-                    <div><button style="background-color: red; color: white; margin-top: 10px;" onclick="alert('Calling now...'); window.location.href='tel:1234567890';">Call Now</button></div>
-                    <div><button style="background-color: blue; color: white; margin-top: 10px; margin-left: 5px;" onclick="window.location.href='database.html';">Access Videos</button></div>
-                </div>`
-    });
-
     marker.addListener('click', () => {
-        // Zoom in on the clicked marker with a slow transition
         const targetZoom = 20;
-        const currentZoom = map.getZoom();
-        const zoomStep = (targetZoom - currentZoom) / 15;
+        const targetLocation = marker.getPosition();
 
-        // Calculate the new center for smooth zoom
+        map.panTo(targetLocation);
+        map.setZoom(targetZoom);
 
+        const infoWindow = new google.maps.InfoWindow({
+            content: markerData.infoContent || ''
+        });
 
-        // Perform zoom steps
-        const zoomInterval = setInterval(() => {
-            if (map.getZoom() < targetZoom) {
-                map.setZoom(map.getZoom() + zoomStep);
-            } else {
-                clearInterval(zoomInterval);
-            }
-        }, 200);
-        // Center the map on the clicked marker
-        map.panTo(marker.getPosition());
-
-        // Open the info window
         infoWindow.open(map, marker);
     });
 }
+
+document.getElementById('switchView').addEventListener('click', function () {
+    const currentMapType = map.getMapTypeId();
+    
+    if (currentMapType === 'satellite') {
+        map.setMapTypeId('terrain');
+        this.classList.remove('satellite');
+        this.classList.add('terrain');
+    } else {
+        map.setMapTypeId('satellite');
+        this.classList.remove('terrain');
+        this.classList.add('satellite');
+    }
+});
 
 function handleFullscreenChange() {
     const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement ||
         document.webkitFullscreenElement || document.msFullscreenElement;
 
     if (fullscreenElement) {
-        // Adjust styling for full-screen mode
         document.getElementById('switchView').style.left = '20px';
         document.getElementById('city').style.left = '120px';
     } else {
-        // Restore styling for normal mode
         document.getElementById('switchView').style.left = '10px';
         document.getElementById('city').style.left = '10px';
     }
 }
 
-// Attach full-screen change event listener
 document.addEventListener('fullscreenchange', handleFullscreenChange);
 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -163,4 +149,5 @@ document.addEventListener('msfullscreenchange', handleFullscreenChange);
 setTimeout(function () {
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('map').style.display = 'block';
-}, 3000); 
+    initMap();
+}, 3000);
