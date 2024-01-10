@@ -18,6 +18,27 @@ function smoothZoom(map, targetZoom) {
     }, 200 * 15);
 }
 
+// function callNow(Contact_No) {
+//     // Add your logic for calling now with the provided phone number
+//     console.log('Calling Now:', Contact_No);
+
+//     // Assuming you have a backend endpoint to fetch owner information based on the provided phone number
+//     fetch(`http://localhost:3000/data=${Contact_No}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.length > 0) {
+//                 const ownerInfo = data[0];
+//                 alert(`Owner Name: ${ownerInfo.Owner_name}\nContact No.: ${ownerInfo.Contact_No}`);
+//                 // You can replace the alert with your logic to initiate a call to the retrieved contact number
+//             } else {
+//                 alert('Owner information not found');
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error fetching owner information:', error);
+//         });
+// }
+
 function initMap() {
     const center = { lat: 20.5937, lng: 78.9629 };
     map = new google.maps.Map(document.getElementById('map'), {
@@ -51,6 +72,7 @@ function initMap() {
                 });
         }
     });
+    
 
     fetch('http://localhost:3000/data')
         .then(response => response.json())
@@ -62,6 +84,8 @@ function initMap() {
                     title: item.Location_name
                 });
 
+
+
                 marker.addListener('click', () => {
                     const targetZoom = 18;
                     const targetLocation = marker.getPosition();
@@ -69,14 +93,24 @@ function initMap() {
                     map.panTo(targetLocation);
                     smoothZoom(map, targetZoom);
 
-                    const infoWindow = new google.maps.InfoWindow({
-                        content: `
-                            <div style="text-align: center; color: black;">
-                                <h3>${item.Location_name}</h3>
-                                <p>Camera Model: ${item.Camera_model}</p>
-                                <p>Owner: ${item.Owner_name}</p>
-                            </div>
-                        `
+                    if (infoWindow) {
+                        infoWindow.close();
+                    }
+
+                    const infoWindowContent = `
+                        <div style="text-align: center; color: black;">
+                            <h3>${item.Location_name}</h3>
+                            <p>Camera Model: ${item.Camera_model}</p>
+                            <p>Owner: ${item.Owner_name}</p>
+                        </div>
+                        <div style="text-align: center; margin-top: 10px;">
+                            <button onclick="callNow('${item.Contact_No}')" style="background-color: #ff0000; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Call Now</button>
+                            <button onclick="accessVideos('${item.Location_name}')" style="background-color: #0000ff; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Access Videos</button>
+                        </div>
+                    `;
+
+                    infoWindow = new google.maps.InfoWindow({
+                        content: infoWindowContent
                     });
 
                     infoWindow.open(map, marker);
