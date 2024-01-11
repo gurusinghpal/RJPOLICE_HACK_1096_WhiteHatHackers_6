@@ -6,8 +6,9 @@ const app = express();
 app.use(cors());
 const port = 3000;
 
-// MySQL Connection
-const db = mysql.createConnection({
+// MySQL Connection Pool
+const pool = mysql.createPool({
+    connectionLimit: 10,
     host: 'localhost',
     user: 'root',
     password: 'Root@123',
@@ -26,29 +27,27 @@ app.get('/data', (req, res) => {
         JOIN Owner_Information o ON c.Camera_IPaddress = o.Camera_IPaddress
     `;
 
-    db.query(sql, (err, data) => {
-        if (err) return res.json(err);
-        return res.json(data);
+    // Use the pool.getConnection method to get a connection from the pool
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting MySQL connection:', err);
+            return res.json(err);
+        }
+
+        // Use the acquired connection for your database query
+        connection.query(sql, (queryErr, data) => {
+            // Release the connection back to the pool when done
+            connection.release();
+
+            if (queryErr) {
+                console.error('Error executing query:', queryErr);
+                return res.json(queryErr);
+            }
+
+            return res.json(data);
+        });
     });
 });
-
-// Fetch Camera Information
-// app.get('/Camera_Information', (req, res) => {
-//     const sql = 'SELECT * FROM Camera_Information';
-//     db.query(sql, (err, data) => {
-//         if (err) return res.json(err);
-//         return res.json(data);
-//     });
-// });
-
-// // Fetch Owner Information
-// app.get('/Owner_Information', (req, res) => {
-//     const sql = 'SELECT * FROM Owner_Information';
-//     db.query(sql, (err, data) => {
-//         if (err) return res.json(err);
-//         return res.json(data);
-//     });
-// });
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}/data`);

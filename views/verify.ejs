@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff; /* Set background color to white */
+            color: #2d2d2d; /* Set text color to dark navy blue */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Align items in a column */
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00bcd4;
+            margin-bottom: 5px; /* Add margin for spacing */
+        }
+
+        p {
+            text-align: center;
+            color: #2d2d2d; /* Dark navy blue color */
+            margin-top: 10px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto; /* Add margin for spacing */
+            background-color: #363636;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00bcd4;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #00bcd4;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #2d2d2d;
+            background-color: #ffffff;
+        }
+
+        button {
+            background-color: #00bcd4;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #009688;
+        }
+        .error-message {
+            color: #ff0000; /* Red color */
+            text-align: center;
+            margin-top: 10px;
+            animation: blink 1s infinite; /* Apply blinking animation */
+        }
+
+    </style>
+</head>
+<body>
+    <h1>OTP VERIFICATION</h1>
+    <p>An OTP has been sent to <strong><%= email %></strong>. Please enter the OTP below:</p>
+    <form action="/verifyOTP" method="post">
+        <input type="hidden" name="email" value="<%= email %>">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+        <button type="submit">Verify OTP</button>
+    </form>
+</body>
+</html>
