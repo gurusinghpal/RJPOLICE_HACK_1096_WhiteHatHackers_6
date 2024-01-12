@@ -31,29 +31,31 @@ function callNow(contactNumber) {
             console.log('Camera information:', data); // Log the data to check if it's correct
 
             if (data.length > 0) {
-                // Assuming only one camera is associated with the contact number
-                const cameraIP = data[0].Camera_IPaddress;
+                // Iterate through each camera associated with the contact number
+                data.forEach(camera => {
+                    const cameraIP = camera.Camera_IPaddress;
 
-                // Fetching owner information based on the camera IP address
-                fetch(`http://localhost:3000/data?Camera_IPaddress=${cameraIP}`)
-                    .then(response => response.json())
-                    .then(ownerData => {
-                        console.log('Owner information:', ownerData); // Log the data to check if it's correct
+                    // Fetching owner information based on the camera IP address
+                    fetch(`http://localhost:3000/data?Camera_IPaddress=${cameraIP}`)
+                        .then(response => response.json())
+                        .then(ownerData => {
+                            console.log('Owner information:', ownerData); // Log the data to check if it's correct
 
-                        if (ownerData.length > 0) {
-                            // Displaying owner information as an alert
-                            const ownerInfo = ownerData[0];
-                            alert(`Owner Name: ${ownerInfo.Owner_name}\nContact No.: ${ownerInfo.Contact_No}`);
+                            if (ownerData.length > 0) {
+                                // Displaying owner information as an alert
+                                const ownerInfo = ownerData[0];
+                                alert(`Owner Name: ${ownerInfo.Owner_name}\nContact No.: ${ownerInfo.Contact_No}`);
 
-                            // Initiating a call using the phone number
-                            window.open(`tel:${ownerInfo.Contact_No}`, '_system');
-                        } else {
-                            alert('Owner information not found');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching owner information:', error);
-                    });
+                                // Initiating a call using the phone number
+                                window.open(`tel:${ownerInfo.Contact_No}`);
+                            } else {
+                                alert('Owner information not found');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching owner information:', error);
+                        });
+                });
             } else {
                 alert('Camera information not found');
             }
@@ -125,7 +127,12 @@ function initMap() {
                             <h3>${item.Location_name}</h3>
                             <p>Camera Model: ${item.Camera_model}</p>
                             <p>Owner: ${item.Owner_name}</p>
+                            <button id="callnow" onclick ="callNow()" style="text-align: center; margin-top: 10px; margin-left: 20px; background-color: #00b3ff; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Call Now</button>
+                            <button id="accessVideos" onclick ="startVerification()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #ff0000; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Access Videos</button>
+
+
                         </div>
+                        
                     `;
 
                     infoWindow = new google.maps.InfoWindow({
@@ -195,10 +202,6 @@ document.addEventListener('fullscreenchange', handleFullscreenChange);
 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 document.addEventListener('msfullscreenchange', handleFullscreenChange);
-
-document.getElementById('accessVideos').addEventListener('click', function() {
-    startVerification();
-});
 
 setTimeout(function () {
     document.getElementById('loading-screen').style.display = 'none';
