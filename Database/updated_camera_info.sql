@@ -30,6 +30,7 @@ CREATE TABLE `camera_information` (
   `Visibility_range` int DEFAULT NULL,
   `Latitude` float DEFAULT NULL,
   `Longitude` float DEFAULT NULL,
+  `Contact_No` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`Camera_IPaddress`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +41,7 @@ CREATE TABLE `camera_information` (
 
 LOCK TABLES `camera_information` WRITE;
 /*!40000 ALTER TABLE `camera_information` DISABLE KEYS */;
-INSERT INTO `camera_information` VALUES ('Ajmer','192.168.1.101','Hikvision DS-2CD2143G0-I','4MP (2688 x 1520)',30,26.45,74.7),('Alwar','192.168.1.102','Dahua IPC-HDW2431RP-ZS','2MP (1920 x 1080)',50,27.5667,76.6333),('Bikaner','192.168.1.103','Axis Communications M3045-V','1080p (1920 x 1080)',45,28.0167,73.3667),('Jaipur','192.168.1.104','Vivotek FD836BA-EHTV','5MP (2560 x 1920)',35,26.9167,75.8667),('Kota','192.168.1.105','Bosch Flexidome IP Starlight 8000i','4K (3840 x 2160)',55,25.1667,75.8667),('Udaipur','192.168.1.106','Hanwha Techwin Wisenet XNV-6085R','2MP (1920 x 1080)',40,27.7,75.55),('Shahadara','192.168.1.107','Honeywell H4W2PRV2','4K (3840 x 2160)',20,28.0667,77.0333),('Ambala','192.168.1.108','Pelco GFC Professional 4K','4K (3840 x 2160)',30,30.35,76.8667),('Ayodhaya','192.168.1.109','Panasonic WV-S2131L','5MP (2560 x 1920)',50,26.8,82.2333),('Ludhiana','192.168.1.110','Sony SNC-EB630','3MP (2048 x 1536)',40,30.9167,75.9),('Mumbai','192.168.1.111','Avigilon H5A-HD Pro','5MP (2560 x 1920)',25,18.9167,72.9),('Hyderabad','192.168.1.112','Arecont Vision AV3556DN-F','3MP (2048 x 1536)',30,17.3333,78.5);
+INSERT INTO `camera_information` VALUES ('Ajmer','192.168.1.101','Hikvision DS-2CD2143G0-I','4MP (2688 x 1520)',30,26.45,74.7,'+91 6397664401'),('Alwar','192.168.1.102','Dahua IPC-HDW2431RP-ZS','2MP (1920 x 1080)',50,27.5667,76.6333,'+91 9053893373'),('Bikaner','192.168.1.103','Axis Communications M3045-V','1080p (1920 x 1080)',45,28.0167,73.3667,'+91 9335500009'),('Jaipur','192.168.1.104','Vivotek FD836BA-EHTV','5MP (2560 x 1920)',35,26.9167,75.8667,'+91 8307026632'),('Kota','192.168.1.105','Bosch Flexidome IP Starlight 8000i','4K (3840 x 2160)',55,25.1667,75.8667,'+91 7982192248'),('Udaipur','192.168.1.106','Hanwha Techwin Wisenet XNV-6085R','2MP (1920 x 1080)',40,27.7,75.55,'+91 9711042223'),('Shahadara','192.168.1.107','Honeywell H4W2PRV2','4K (3840 x 2160)',20,28.0667,77.0333,'+91 8791751443'),('Ambala','192.168.1.108','Pelco GFC Professional 4K','4K (3840 x 2160)',30,30.35,76.8667,'+91 9417017652'),('Ayodhaya','192.168.1.109','Panasonic WV-S2131L','5MP (2560 x 1920)',50,26.8,82.2333,'+91 9034390005'),('Ludhiana','192.168.1.110','Sony SNC-EB630','3MP (2048 x 1536)',40,30.9167,75.9,'+91 7887485850'),('Mumbai','192.168.1.111','Avigilon H5A-HD Pro','5MP (2560 x 1920)',25,18.9167,72.9,'+91 8979681582'),('Hyderabad','192.168.1.112','Arecont Vision AV3556DN-F','3MP (2048 x 1536)',30,17.3333,78.5,'+91 8707309604');
 /*!40000 ALTER TABLE `camera_information` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,4 +81,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-09  0:17:46
+-- Dump completed on 2024-01-14  3:14:49

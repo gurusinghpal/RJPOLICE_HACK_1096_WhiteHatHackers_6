@@ -16,6 +16,7 @@
             align-items: center;
             flex-direction: column; /* Align items in a column */
             height: 100vh;
+            position: relative;
         }
 
         h1 {
@@ -85,7 +86,10 @@
         <input type="hidden" name="email" value="<%= email %>">
         <label for="otp">Enter OTP:</label>
         <input type="text" id="otp" name="otp" required>
-        <button type="submit">Verify OTP</button>
+        <!-- <button type="submit">Verify OTP</button> -->
+        <div style="display: flex; justify-content: center;">
+            <button type="submit">Verify OTP</button>
+        </div>
     </form>
 </body>
 </html>

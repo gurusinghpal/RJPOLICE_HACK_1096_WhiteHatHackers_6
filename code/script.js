@@ -22,48 +22,52 @@ function startVerification() {
     console.log("Button clicked!");
     window.location.href = `http://localhost:3300`;
 }
+function displayContactNumber(Locationname, ownerName) {
+    // URL for fetching data based on Location_name
+    const apiUrl = `http://localhost:3000/data?Location_name=${Locationname}`;
 
-function callNow(contactNumber) {
-    // Fetching camera IP address based on the provided contact number
-    fetch(`http://localhost:3000/data?Contact_No=${contactNumber}`)
+    // Fetch data from the API
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log('Camera information:', data); // Log the data to check if it's correct
+            if (data && data.length > 0) {
+                let contactNumberFound = false;
 
-            if (data.length > 0) {
-                // Iterate through each camera associated with the contact number
-                data.forEach(camera => {
-                    const cameraIP = camera.Camera_IPaddress;
+                // Iterate through all items in the data array
+                data.forEach(cameraInfo => {
+                    // Check if Contact_No exists in cameraInfo
+                    if (cameraInfo && cameraInfo.Contact_No) {
+                        // If the current item matches the location, display the contact number
+                        if (cameraInfo.Location_name === Locationname) {
+                            alert(`Contact Number for ${ownerName}: ${cameraInfo.Contact_No}`);
+                            contactNumberFound = true;
+                            window.open(`tel:${cameraInfo.Contact_No}`)
 
-                    // Fetching owner information based on the camera IP address
-                    fetch(`http://localhost:3000/data?Camera_IPaddress=${cameraIP}`)
-                        .then(response => response.json())
-                        .then(ownerData => {
-                            console.log('Owner information:', ownerData); // Log the data to check if it's correct
-
-                            if (ownerData.length > 0) {
-                                // Displaying owner information as an alert
-                                const ownerInfo = ownerData[0];
-                                alert(`Owner Name: ${ownerInfo.Owner_name}\nContact No.: ${ownerInfo.Contact_No}`);
-
-                                // Initiating a call using the phone number
-                                window.open(`tel:${ownerInfo.Contact_No}`);
-                            } else {
-                                alert('Owner information not found');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching owner information:', error);
-                        });
+                        }
+                    }
                 });
+
+                // If no contact number is found for the location, display an alert
+                if (!contactNumberFound) {
+                    alert(`Contact Number not found for ${ownerName}`);
+                }
             } else {
-                alert('Camera information not found');
+                // If no data is returned, display an alert
+                alert(`No data found for ${Locationname}`);
             }
         })
         .catch(error => {
-            console.error('Error fetching camera information:', error);
+            console.error('Error fetching data:', error);
+            // If an error occurs during fetching, display an alert with the error message
+            alert(`Error fetching data: ${error.message}`);
         });
 }
+
+
+
+// Call yourFunction somewhere in your code
+
+
 
 function initMap() {
     const center = { lat: 20.5937, lng: 78.9629 };
@@ -98,22 +102,23 @@ function initMap() {
                 });
         }
     });
-    
+
 
     fetch('http://localhost:3000/data')
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(item => {
-                const marker = new google.maps.Marker({
-                    position: { lat: item.Latitude, lng: item.Longitude },
-                    map: map,
-                    title: item.Location_name,
-                    ownerInfo: item  // Associate owner information with each marker
-                });
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(item => {
+            const marker = new google.maps.Marker({
+                position: { lat: item.Latitude, lng: item.Longitude },
+                map: map,
+                title: item.Location_name,
+                ownerInfo: item  // Associate owner information with each marker
+            });
 
-                marker.addListener('click', () => {
+            marker.addListener('click', (function (currentItem, currentMarker) {
+                return function () {
                     const targetZoom = 18;
-                    const targetLocation = marker.getPosition();
+                    const targetLocation = currentMarker.getPosition();
 
                     map.panTo(targetLocation);
                     smoothZoom(map, targetZoom);
@@ -124,27 +129,32 @@ function initMap() {
 
                     const infoWindowContent = `
                         <div style="text-align: center; color: black;">
-                            <h3>${item.Location_name}</h3>
-                            <p>Camera Model: ${item.Camera_model}</p>
-                            <p>Owner: ${item.Owner_name}</p>
-                            <button id="callnow" onclick ="callNow()" style="text-align: center; margin-top: 10px; margin-left: 20px; background-color: #00b3ff; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Call Now</button>
-                            <button id="accessVideos" onclick ="startVerification()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #ff0000; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Access Videos</button>
-
-
+                            <h3>${currentItem.Location_name}</h3>
+                            <p>Camera Model: ${currentItem.Camera_model}</p>
+                            <p>Owner: ${currentItem.Owner_name}</p>
+                            <button id="callNow" 
+                                onclick="displayContactNumber('${currentItem.Location_name}','${currentItem.Owner_name}')"
+                                style="text-align: center; margin-top: 10px; margin-left: 20px; background-color: #00b3ff; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                                Call Now
+                            </button>
+                            <button id="accessVideos" onclick="startVerification()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #ff0000; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                                Access Videos
+                            </button>
                         </div>
-                        
                     `;
 
                     infoWindow = new google.maps.InfoWindow({
                         content: infoWindowContent
                     });
 
-                    infoWindow.open(map, marker);
-                });
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+                    infoWindow.open(map, currentMarker);
+                };
+            })(item, marker));
+        });
+    })
+    .catch(error => console.error('Error fetching data:', error));
 }
+
 
 function addMarker(map, markerData) {
     const marker = new google.maps.Marker({

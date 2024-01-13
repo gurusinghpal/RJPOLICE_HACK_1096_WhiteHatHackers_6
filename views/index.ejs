@@ -72,6 +72,12 @@
     </style>
 </head>
 <body>
+    <% if (invalidEmail) { %>
+        <div style="text-align: center; color: red;">
+            You are not authorized to access this database. Kindly contact your administrator!
+        </div>
+    <% } %>
+    
     <h1>USER AUTHORIZATION</h1>
     <h3>For Accessing Video Footages</h3>
     <form action="/sendOTP" method="post">
