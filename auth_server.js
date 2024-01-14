@@ -2,11 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sendMail = require('./code/sendMail');
 const session = require('express-session');
+const mysql = require('mysql');
 
 const app = express();
 const port = 3300;
-
-const allowedEmails = ['kingakash1010@gmail.com', 'namanrao400@gmail.com', 'deepsinghjashan1313@gmail.com', 'gurusingh2585@gmail.com'];
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,6 +16,21 @@ app.use(session({
     saveUninitialized: true,
 }));
 
+const dbConnection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'Root@123',
+    database: 'gt_numbers',
+});
+
+dbConnection.connect((err) => {
+    if (err) {
+        console.error('Database connection failed: ' + err.stack);
+        return;
+    }
+    console.log('Connected to database');
+});
+
 app.get('/', (req, res) => {
     res.render('index', { retry: false, email: '', invalidEmail: false });
 });
@@ -24,24 +38,31 @@ app.get('/', (req, res) => {
 app.post('/sendOTP', async (req, res) => {
     const email = req.body.email;
 
-    if (allowedEmails.includes(email)) {
-    // Generate random 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000);
+    // Check if the email exists in the database
+    const query = 'SELECT * FROM access_email_db WHERE EmailId = ?';
+    dbConnection.query(query, [email], async (error, results) => {
+        if (error) {
+            res.send(`Database error: ${error.message}`);
+        } else if (results.length > 0) {
+            // Generate random 6-digit OTP
+            const otp = Math.floor(100000 + Math.random() * 900000);
 
-    try {
-        const result = await sendMail(email, otp);
+            try {
+                const result = await sendMail(email, otp);
 
-        // Store the generated OTP in the session
-        req.session.generatedOTP = otp.toString();
+                // Store the generated OTP in the session
+                req.session.generatedOTP = otp.toString();
 
-        // Render a page where the user enters the OTP
-        res.render('verify', { email });
-    } catch (error) {
-        res.send(`Error: ${error.message}`);
-    }
-} else {
-    res.render('index', { retry: true, email, invalidEmail: true });
-}
+                // Render a page where the user enters the OTP
+                res.render('verify', { email });
+            } catch (error) {
+                res.send(`Error: ${error.message}`);
+            }
+        } else {
+            // Email not found in the database
+            res.render('index', { retry: true, email, invalidEmail: true });
+        }
+    });
 });
 
 app.post('/verifyOTP', (req, res) => {
@@ -49,9 +70,6 @@ app.post('/verifyOTP', (req, res) => {
 
     // Retrieve the stored OTP from the session
     const generatedOTP = req.session.generatedOTP;
-
-    // Clear the stored OTP from the session to prevent reuse
-    req.session.generatedOTP = null;
 
     // Compare the entered OTP with the generated OTP
     const isOTPValid = generatedOTP === enteredOTP;
@@ -61,8 +79,8 @@ app.post('/verifyOTP', (req, res) => {
         const redirectLink = 'https://www.playbook.com/s/forfree/dMbbWrVpsvdT2qTqFWUE3akh'; // Replace with your desired link
         res.redirect(redirectLink);
     } else {
-        // OTP verification failed, you might want to handle this case
-        res.send('Invalid OTP. Please try again.');
+        // Invalid OTP. Render the verify page with an error message
+        res.render('verify', { email, invalidOTP: true });
     }
 });
 

@@ -76,17 +76,34 @@
             margin-top: 10px;
             animation: blink 1s infinite; /* Apply blinking animation */
         }
-
     </style>
+
+    <script>
+        // Add this script to handle the error message and text change
+        setTimeout(function() {
+            var errorMessage = document.querySelector('.error-message');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        }, 5000);
+    </script>
+    
 </head>
 <body>
     <h1>OTP VERIFICATION</h1>
     <p>An OTP has been sent to <strong><%= email %></strong>. Please enter the OTP below:</p>
-    <form action="/verifyOTP" method="post">
+
+    <!-- Add this error message div to display invalid OTP message -->
+    <div class="error-message">
+        <% if (typeof invalidOTP !== 'undefined' && invalidOTP) { %>
+            Invalid OTP. Please try again.
+        <% } %>
+    </div>
+
+    <form action="/verifyOTP" method="post" style="text-align: center;">
         <input type="hidden" name="email" value="<%= email %>">
         <label for="otp">Enter OTP:</label>
         <input type="text" id="otp" name="otp" required>
-        <!-- <button type="submit">Verify OTP</button> -->
         <div style="display: flex; justify-content: center;">
             <button type="submit">Verify OTP</button>
         </div>
