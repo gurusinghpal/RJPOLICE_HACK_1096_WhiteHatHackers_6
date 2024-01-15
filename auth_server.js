@@ -39,7 +39,7 @@ app.post('/sendOTP', async (req, res) => {
     const email = req.body.email;
 
     // Check if the email exists in the database
-    const query = 'SELECT * FROM access_email_db WHERE EmailId = ?';
+    const query = 'SELECT * FROM registered_users WHERE Email = ?';
     dbConnection.query(query, [email], async (error, results) => {
         if (error) {
             res.send(`Database error: ${error.message}`);
@@ -59,7 +59,7 @@ app.post('/sendOTP', async (req, res) => {
                 res.send(`Error: ${error.message}`);
             }
         } else {
-            // Email not found in the database
+            // Email not found in the registered_users table
             res.render('index', { retry: true, email, invalidEmail: true });
         }
     });
