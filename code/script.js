@@ -17,6 +17,12 @@ function smoothZoom(map, targetZoom) {
         clearInterval(smoothZoomInterval);
     }, 200 * 15);
 }
+
+function startLiveCam() {
+    // Redirect to the Python file that opens a webcam in real time
+    window.location.href = `http://127.0.0.1:5000/start_weapon_detection`;
+}
+
 function startVerification() {
     // Open the sendOTP page with the location name and contact number
     console.log("Button clicked!");
@@ -144,6 +150,9 @@ function initMap() {
                             <button id="accessVideos" onclick="startVerification()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #ff0000; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
                                 Access Videos
                             </button>
+                            <button id="liveCam" onclick="startLiveCam()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #4caf50; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                                    Live Cam
+                                </button>
                         </div>
                     `;
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weapon Detection</title>
+</head>
+<body>
+
+    <h1>Weapon Detection System</h1>
+    <button id="startDetectionBtn">Start Detection</button>
+
+    <script>
+        document.getElementById('startDetectionBtn').addEventListener('click', async function () {
+            try {
+                const response = await fetch('http://localhost:5000/start_weapon_detection');
+                const data = await response.json();
+                console.log(data.message);
+            } catch (error) {
+                console.error('Error starting weapon detection:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>
