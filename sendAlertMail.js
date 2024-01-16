@@ -6,7 +6,7 @@ const CLIENT_ID = '119367608078-aoqm6g1itnpp068dvprccgb2h9mdbm0f.apps.googleuser
 const CLEINT_SECRET = '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';
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
 const REFRESH_TOKEN = '1//04MeKtsuk-CTQCgYIARAAGAQSNwF-L9Irdt4nYUY-h0iBw4rp_qyrfm-1LBG25wApc4ZmjMV-WaLlWRTMlEnBo2Y4Q5adqKBPr-k';
-const allowedEmails = ['kingakash1010@gmail.com', 'namanrao400@gmail.com', 'deepsinghjashan1313@gmail.com', 'gurusingh2585@gmail.com'];
+const allowedEmails = ['akashkapoor976@gmail.com', 'namanrao400@gmail.com', 'deepsinghjashan1313@gmail.com', 'gurusingh2585@gmail.com'];
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
