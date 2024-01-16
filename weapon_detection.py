@@ -1,3 +1,5 @@
+#Code for Phone Webcam (working as cctv camera)
+
 from ultralytics import YOLO
 import cv2
 import subprocess
@@ -104,7 +106,7 @@ cv2.destroyAllWindows()
 
 
 
-
+#Code for Laptop Webcam
 
 # from ultralytics import YOLO
 # import cv2
