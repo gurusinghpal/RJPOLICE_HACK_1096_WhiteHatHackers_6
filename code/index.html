@@ -163,7 +163,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><!-- Add these links in the head section of your HTML -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -235,14 +239,32 @@
             z-index: 1000;
         }
 
-        #city,
-        #switchView,
+        #city {
+                border-radius: 8px;
+                background-color: rgb(30, 11, 153);
+                color: black;
+                border: crimson;
+                color: whitesmoke;
+                padding: 3px;
+                cursor: pointer;
+                margin-right: 10px;
+        }
+        #switchView {
+                border-radius: 8px;
+                background-color: rgb(7, 103, 5);
+                border: rgb(255, 255, 255);
+                color: whitesmoke;
+                padding: 3px;
+                cursor: pointer;
+                margin-right: 10px;
+        }
         #statusButton {
             border-radius: 8px;
-            background-color: white;
+            background-color: rgb(220, 21, 21);
             color: black;
             border: crimson;
-            padding: 4px;
+            color: whitesmoke;
+            padding: 3px;
             cursor: pointer;
             margin-right: 10px;
         }

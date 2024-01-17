@@ -84,29 +84,72 @@ function initMap() {
     });
 
     document.getElementById('city').addEventListener('click', function () {
-        let city = prompt('Please enter a city name:');
-        if (city) {
-            const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${city}`;
-
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        const cityLocation = {
-                            lat: parseFloat(data[0].lat),
-                            lng: parseFloat(data[0].lon)
-                        };
-
-                        map.setCenter(cityLocation);
-                        smoothZoom(map, 14);
-                    } else {
-                        alert('City not found');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        }
+        const cityModalContent = `
+            <div class="modal fade" id="cityModal" tabindex="-1" role="dialog" aria-labelledby="cityModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content custom-modal">
+                    <div class="modal-header" style="background-color: rgba(255, 255, 255, 0.8); border: none;">
+                            <h5 class="modal-title" id="cityModalLabel" style="color:black">Enter City Name</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="cityForm">
+                                <div class="form-group">
+                                    <label for="cityInput">City Name:</label>
+                                    <input type="text" class="form-control" id="cityInput" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    
+        document.body.insertAdjacentHTML('beforeend', cityModalContent);
+    
+        $('#cityModal').modal('show');
+    
+        const cityForm = document.getElementById('cityForm');
+        const cityInput = document.getElementById('cityInput');
+    
+        cityForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const city = cityInput.value;
+    
+            if (city) {
+                const apiUrl = 'https://nominatim.openstreetmap.org/search?format=json&q=${city}';
+    
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#cityModal').modal('hide');
+    
+                        if (data.length > 0) {
+                            const cityLocation = {
+                                lat: parseFloat(data[0].lat),
+                                lng: parseFloat(data[0].lon)
+                            };
+    
+                            map.setCenter(cityLocation);
+                            smoothZoom(map, 14);
+                        } else {
+                            alert('City not found');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        $('#cityModal').modal('hide');
+                    });
+            }
+        });
+    
+        $('#cityModal').on('hidden.bs.modal', function () {
+            // Remove the modal from the DOM when it's closed
+            document.body.removeChild(document.getElementById('cityModal'));
+        });
     });
 
 
