@@ -11,3 +11,6 @@ pip install -r requirements.txt
 ```
 ### 3. Start all the servers
 ### 4. Run login.html
+
+## Architecture
+![Alt text]([image link](https://github.com/simran-2501/RJPOLICE_HACK_1009_NullandNill_6/raw/main/Images/Architecture.jpg)https://github.com/simran-2501/RJPOLICE_HACK_1009_NullandNill_6/raw/main/Images/Architecture.jpg)
