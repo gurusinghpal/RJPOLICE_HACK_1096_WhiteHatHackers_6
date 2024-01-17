@@ -39,7 +39,7 @@ app.post('/sendOTP', async (req, res) => {
     const email = req.body.email;
 
     // Check if the email exists in the database
-    const query = 'SELECT * FROM registered_users WHERE Email = ?';
+    const query = 'SELECT * FROM owner_information WHERE Email = ?';
     dbConnection.query(query, [email], async (error, results) => {
         if (error) {
             res.send(`Database error: ${error.message}`);
