@@ -125,44 +125,43 @@ function initMap() {
                     ownerInfo: item  // Associate owner information with each marker
                 });
 
-            marker.addListener('click', (function (currentItem, currentMarker) {
-                return function () {
-                    const targetZoom = 18;
-                    const targetLocation = currentMarker.getPosition();
-
-                    map.panTo(targetLocation);
-                    smoothZoom(map, targetZoom);
-
-                    if (infoWindow) {
-                        infoWindow.close();
-                    }
-
-                    const infoWindowContent = `
-                        <div style="text-align: center; color: black;">
-                            <h3>${currentItem.Location_name}</h3>
-                            <p>Camera Model: ${currentItem.Camera_model}</p>
-                            <p>Owner: ${currentItem.Owner_name}</p>
-                            <button id="callNow" 
-                                onclick="displayContactNumber('${currentItem.Location_name}','${currentItem.Owner_name}')"
-                                style="text-align: center; margin-top: 10px; margin-left: 20px; background-color: #00b3ff; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
-                                Call Now
-                            </button>
-                            <button id="accessVideos" onclick="startVerification()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #ff0000; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
-                                Access Videos
-                            </button>
-                            <button id="liveCam" onclick="startLiveCam()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #4caf50; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                marker.addListener('click', (function (currentItem, currentMarker) {
+                    return function () {
+                
+                        if (infoWindow) {
+                            infoWindow.close();
+                        }
+                
+                        const infoWindowContent = `
+                            <div style="text-align: left; color: black">
+                                <h3>${currentItem.Location_name}</h3>
+                                <p>Camera Model: ${currentItem.Camera_model}</p>
+                                <p>Owner: ${currentItem.Owner_name}</p>
+                                <p>Camera IPaddress: ${currentItem.Camera_IPaddress}</p>
+                                <p>Latitude: ${currentItem.Latitude} Longitude: ${currentItem.Longitude}</p>
+                                <p>Camera Resolution: ${currentItem.Resolutions}</p>
+                                <p>Visibility Range of Camera: ${currentItem.Visibility_range}</p>
+                                <button id="callNow" 
+                                    onclick="displayContactNumber('${currentItem.Location_name}','${currentItem.Owner_name}')"
+                                    style="text-align: center; margin-top: 10px; margin-left: 20px; background-color: #00b3ff; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                                    Call Now
+                                </button>
+                                <button id="accessVideos" onclick="startVerification()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #ff0000; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                                    Access Videos
+                                </button>
+                                <button id="liveCam" onclick="startLiveCam()" style="text-align: center; margin-top: 10px; margin-left: 21px; background-color: #4caf50; color: #ffffff; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
                                     Live Cam
                                 </button>
-                        </div>
-                    `;
-
-                    infoWindow = new google.maps.InfoWindow({
-                        content: infoWindowContent
-                    });
-
-                    infoWindow.open(map, currentMarker);
-                };
-            })(item, marker));
+                            </div>
+                        `;
+                
+                        infoWindow = new google.maps.InfoWindow({
+                            content: infoWindowContent
+                        });
+                
+                        infoWindow.open(map, currentMarker);
+                    };
+                })(item, marker));
         });
     })
     .catch(error => console.error('Error fetching data:', error));
@@ -178,11 +177,6 @@ function addMarker(map, markerData) {
     });
 
     marker.addListener('click', () => {
-        const targetZoom = 20;
-        const targetLocation = marker.getPosition();
-
-        map.panTo(targetLocation);
-        map.setZoom(targetZoom);
 
         const infoWindow = new google.maps.InfoWindow({
             content: markerData.infoContent || ''
@@ -204,6 +198,10 @@ document.getElementById('switchView').addEventListener('click', function () {
         this.classList.remove('terrain');
         this.classList.add('satellite');
     }
+});
+
+document.getElementById('statusButton').addEventListener('click', function () {
+    document.getElementById('statusPanel').classList.toggle('open');
 });
 
 function handleFullscreenChange() {

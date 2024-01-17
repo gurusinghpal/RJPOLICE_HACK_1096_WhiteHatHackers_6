@@ -1,3 +1,165 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>GEOTAGGING</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            background-image: url('https://wallpaperset.com/w/full/5/8/9/123389.jpg');
+            /* Replace with your background image URL */
+            background-size: 150%;
+            background-position: center;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        .loading-circle {
+            border: 3px solid #fff;
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-top: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            display: none;
+            /* Initially hide the map */
+        }
+
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+
+        #city,
+        #switchView,
+        #statusButton {
+            border-radius: 8px;
+            background-color: white;
+            color: black;
+            border: crimson;
+            padding: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #bottom-content {
+            text-align: center;
+            padding: 10px 20px;
+            /* Increased padding for a wider strip */
+            background-color: #f2f2f2;
+            color: crimson;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #switchView.satellite {
+            color: green;
+        }
+
+        #switchView.terrain {
+            color: blue;
+        }
+
+        #statusPanel {
+            position: fixed;
+            top: 0;
+            left: -100%; /* Initially hidden off-screen */
+            width: 50%;
+            height: 50vh; /* Set height to 50% of the viewport height */
+            background-color: white;
+            color: black;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: left 0.3s ease;
+        }
+
+        #statusPanel.open {
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading-screen">
+        <h1>GEO TAGGING</h1>
+        <div class="loading-circle"></div>
+    </div>
+    <div id="loading-screen">
+        <p style="margin-bottom : 5px">
+            The Best Place to find the crimes in your city
+        </p>
+    </div>
+
+    <div id="map"></div>
+
+    <div id="controls">
+        <button id="switchView">Switch View</button>
+        <button id="city">City</button>
+        <button id="statusButton">Status</button>
+    </div>
+
+    <div id="statusPanel">
+        
+        <p>Status Panel Content</p>
+    </div>
+
+    <div id="bottom-content">
+        Made by WHITE HAT HACKERS with ❤️
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBCOwbXxB7j5uN1YXNo_tHEKhuwNf2_i4&callback=initMap"
+        async defer></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html> -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,7 +236,8 @@
         }
 
         #city,
-        #switchView {
+        #switchView,
+        #statusButton {
             border-radius: 8px;
             background-color: white;
             color: black;
@@ -102,6 +265,23 @@
         #switchView.terrain {
             color: blue;
         }
+
+        #statusPanel {
+            position: fixed;
+            top: 0;
+            left: -100%; /* Initially hidden off-screen */
+            width: 30%;
+            height: 100vh; /* Set height to 50% of the viewport height */
+            background-color: white;
+            color: black;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: left 0.3s ease;
+        }
+
+        #statusPanel.open {
+            left: 0;
+        }
     </style>
 </head>
 
@@ -121,6 +301,12 @@
     <div id="controls">
         <button id="switchView">Switch View</button>
         <button id="city">City</button>
+        <button id="statusButton">Status</button>
+    </div>
+
+    <div id="statusPanel">
+        <!-- Your status panel content goes here -->
+        <p>Status Panel Content</p>
     </div>
 
     <div id="bottom-content">
@@ -130,6 +316,8 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBCOwbXxB7j5uN1YXNo_tHEKhuwNf2_i4&callback=initMap"
         async defer></script>
     <script src="script.js"></script>
+
 </body>
 
 </html>
+
