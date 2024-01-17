@@ -4,9 +4,9 @@
 ```
 git clone https://github.com/gurusinghpal/RJPOLICE_HACK_1096_WhiteHatHackers_6.git
 ```
-2. Install the requirements
+### 2. Install the requirements
 ```
 pip install -r requirements.txt
 ```
-3. Start all the servers
-4. Run login.html
+### 3. Start all the servers
+### 4. Run login.html
