@@ -168,6 +168,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Leaflet Routing Machine JS -->
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -200,6 +206,8 @@
 
         h1 {
             font-size: 2em;
+            margin-top: 350px;
+            
         }
 
         .loading-circle {
@@ -208,7 +216,7 @@
             border-radius: 50%;
             width: 30px;
             height: 30px;
-            margin-top: 20px;
+            margin-top: 40px;
             animation: spin 2s linear infinite;
         }
 
@@ -239,34 +247,37 @@
             z-index: 1000;
         }
 
-        #city {
-                border-radius: 8px;
-                background-color: rgb(30, 11, 153);
-                color: black;
-                border: crimson;
-                color: whitesmoke;
-                padding: 3px;
-                cursor: pointer;
-                margin-right: 10px;
-        }
-        #switchView {
-                border-radius: 8px;
-                background-color: rgb(7, 103, 5);
-                border: rgb(255, 255, 255);
-                color: whitesmoke;
-                padding: 3px;
-                cursor: pointer;
-                margin-right: 10px;
-        }
-        #statusButton {
+        #city,
+        #switchView,
+        #statusButton,
+        #RecordedVideos {
             border-radius: 8px;
-            background-color: rgb(220, 21, 21);
             color: black;
             border: crimson;
             color: whitesmoke;
             padding: 3px;
             cursor: pointer;
             margin-right: 10px;
+            background-color: transparent;
+            /* Set background to transparent */
+        }
+
+        .routing-icon {
+            background-color: #3388ff;
+            color: #ffffff;
+            border-radius: 50%;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        #city:hover,
+        #switchView:hover,
+        #statusButton:hover,
+        #RecordedVideos:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            /* Translucent color on hover */
         }
 
         #bottom-content {
@@ -291,9 +302,11 @@
         #statusPanel {
             position: fixed;
             top: 0;
-            left: -100%; /* Initially hidden off-screen */
+            left: -100%;
+            /* Initially hidden off-screen */
             width: 30%;
-            height: 100vh; /* Set height to 50% of the viewport height */
+            height: 100vh;
+            /* Set height to 50% of the viewport height */
             background-color: white;
             color: black;
             padding: 20px;
@@ -313,7 +326,7 @@
         <div class="loading-circle"></div>
     </div>
     <div id="loading-screen">
-        <p style="margin-bottom : 5px">
+        <p style="margin-top : 350px">
             The Best Place to find the crimes in your city
         </p>
     </div>
@@ -324,6 +337,7 @@
         <button id="switchView">Switch View</button>
         <button id="city">City</button>
         <button id="statusButton">Status</button>
+        <button id="RecordedVideos">Recorded Videos</button>
     </div>
 
     <div id="statusPanel">
@@ -342,4 +356,3 @@
 </body>
 
 </html>
-

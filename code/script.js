@@ -23,6 +23,8 @@ function startLiveCam() {
     window.location.href = `http://127.0.0.1:5000/start_weapon_detection`;
 }
 
+
+
 function startVerification() {
     // Open the sendOTP page with the location name and contact number
     console.log("Button clicked!");
@@ -88,8 +90,8 @@ function initMap() {
             <div class="modal fade" id="cityModal" tabindex="-1" role="dialog" aria-labelledby="cityModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content custom-modal">
-                    <div class="modal-header" style="background-color: rgba(255, 255, 255, 0.8); border: none;">
-                            <h5 class="modal-title" id="cityModalLabel" style="color:black">Enter City Name</h5>
+                        <div class="modal-header" style="background-color: rgba(255, 255, 255, 0.8); border: none;">
+                            <h5 class="modal-title" id="cityModalLabel" style="color: black">Enter City Name</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -120,7 +122,7 @@ function initMap() {
             const city = cityInput.value;
     
             if (city) {
-                const apiUrl = 'https://nominatim.openstreetmap.org/search?format=json&q=${city}';
+                const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`;
     
                 fetch(apiUrl)
                     .then(response => response.json())
@@ -133,8 +135,11 @@ function initMap() {
                                 lng: parseFloat(data[0].lon)
                             };
     
-                            map.setCenter(cityLocation);
-                            smoothZoom(map, 14);
+                            // Delay before setting center and zoom
+                            setTimeout(() => {
+                                map.setCenter(cityLocation);
+                                smoothZoom(map, 14);
+                            }, 500); // Adjust the delay as needed
                         } else {
                             alert('City not found');
                         }
@@ -151,7 +156,9 @@ function initMap() {
             document.body.removeChild(document.getElementById('cityModal'));
         });
     });
-
+    
+    // Rest of your code...
+    
 
     fetch('http://localhost:3000/data')
         .then(response => response.json())
@@ -241,6 +248,11 @@ document.getElementById('switchView').addEventListener('click', function () {
         this.classList.remove('terrain');
         this.classList.add('satellite');
     }
+});
+
+document.getElementById('RecordedVideos').addEventListener('click', function() {
+    // Navigate to the "index.html" file
+    window.location.href = 'object.html';
 });
 
 document.getElementById('statusButton').addEventListener('click', function () {

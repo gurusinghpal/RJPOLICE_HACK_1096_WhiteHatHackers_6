@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weapon Detection</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #videoContainer {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        #uploadVideoBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        #uploadVideoBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #sampleVideo {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Weapon Detection</h1>
+
+    <div id="videoContainer">
+        <input type="file" id="videoInput" accept="video/*" style="display: none;">
+        <label for="videoInput" id="uploadVideoBtn">Choose Video</label>
+        <br>
+        <!-- Sample video element -->
+        <video controls id="sampleVideo" src="/sample.mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        document.getElementById('videoInput').addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const fileInput = event.target;
+
+            if (fileInput.files.length > 0) {
+                const selectedFile = fileInput.files[0];
+
+                // Call the backend to start object detection with the selected video
+                startObjectDetection(selectedFile);
+            }
+        }
+
+        function startObjectDetection(videoFile) {
+            const formData = new FormData();
+            formData.append('video', videoFile);
+
+            fetch('http://localhost:5000/detection', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error starting detection:', error));
+        }
+    </script>
+
+</body>
+</html>
