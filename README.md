@@ -11,6 +11,3 @@ pip install -r requirements.txt
 ```
 ### 3. Start all the servers
 ### 4. Run login.html
-
-## Architecture
-![Architecture](https://github.com/gurusinghpal/RJPOLICE_HACK_1096_WhiteHatHackers_6/assets/127821747/9bd53880-5e84-41bc-9b57-4fde8229bfe4)
