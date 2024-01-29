@@ -226,6 +226,7 @@ function addMarker(map, markerData) {
         icon: markerData.iconUrl || null
     });
 
+
     marker.addListener('click', () => {
 
         const infoWindow = new google.maps.InfoWindow({
@@ -236,6 +237,20 @@ function addMarker(map, markerData) {
     });
 }
 
+function toggleStatusPanel() {
+    var statusPanel = document.getElementById("statusPanel");
+
+    // Toggle the "open" class on the status panel
+    statusPanel.classList.toggle("open");
+}
+
+// Function to close the status panel
+function closeStatusPanel() {
+    var statusPanel = document.getElementById("statusPanel");
+
+    // Remove the "open" class to close the status panel
+    statusPanel.classList.remove("open");
+}
 document.getElementById('switchView').addEventListener('click', function () {
     const currentMapType = map.getMapTypeId();
 
@@ -254,24 +269,6 @@ document.getElementById('RecordedVideos').addEventListener('click', function() {
     // Navigate to the "index.html" file
     window.location.href = 'object.html';
 });
-
-// function closeStatusPanel() {
-//     document.getElementById("statusPanel").classList.remove("open");
-// }
-
-// document.getElementById("statusButton").addEventListener("click", function () {
-//     document.getElementById("statusPanel").classList.toggle("open");
-// });
-
-// document.getElementById("statusPanel").addEventListener("click", function (event) {
-//     event.stopPropagation();
-// });
-
-// document.body.addEventListener("click", function () {
-//     if (document.getElementById("statusPanel").classList.contains("open")) {
-//         closeStatusPanel();
-//     }
-// });
 
 function handleFullscreenChange() {
     const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement ||

@@ -176,6 +176,48 @@
         #closeStatusPanel:hover {
             color: red;
         }
+
+        #statusPanel table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        #statusPanel th, #statusPanel td {
+            font-size: 12px !important; /* Adjust the font size as needed */
+            margin: 0; /* Remove default margin */
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    
+        #statusPanel th {
+            background-color: #f2f2f2;
+        }
+    
+            .status-symbol {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: green; /* Change color based on your status */
+                box-shadow: 0 0 10px 2px green;
+                animation: glow 0.5s infinite alternate;
+                vertical-align: center; /* Align the symbol vertically in the middle */
+            }
+    
+        .running {
+            margin-left: 15px;
+            background-color: green; /* Change color based on your status */
+            box-shadow: 0 0 10px 2px green;
+            animation: glow 0.5s infinite alternate;
+        }
+    
+        @keyframes glow {
+            to {
+                box-shadow: 0 0 20px 5px green;
+            }
+        }
     </style>
 </head>
 
@@ -195,15 +237,52 @@
     <div id="controls">
         <button id="switchView">Switch View</button>
         <button id="city">City</button>
-        <button id="statusButton">Status</button>
+        <button id="statusButton" onclick="toggleStatusPanel()">Status</button>
         <button id="RecordedVideos">Recorded Videos</button>
     </div>
 
     <div id="statusPanel">
         <div id="closeStatusPanel" onclick="closeStatusPanel()">&times;</div>
-        <!-- Your status panel content goes here -->
-        <p>Status Panel Content</p>
+    
+    <!-- Table structure for the status panel content -->
+    <table>
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Camera Model</th>
+                <th>Status</th>
+                <th>Owner</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Example row, replace with dynamic data -->
+            <tr>
+                <td>1</td>
+                <td> Sony SNC-EB630 </td>
+                <td>
+                    <!-- Symbol for status and glow animation -->
+                    <span class="status-symbol running"></span>
+                </td>
+                <td>Pawan Saini</td>
+                <td>Latitude: 30.9167 Longitude: 75.9</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td> Pelco GFC Professional 4K </td>
+                <td>
+                    <!-- Symbol for status and glow animation -->
+                    <span class="status-symbol running"></span>
+                </td>
+                <td>Rohitashav Gautam</td>
+                <td>Latitude: 30.35 Longitude: 76.8667</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
     </div>
+    
 
     <div id="bottom-content">
         Made by WHITE HAT HACKERS with ❤️

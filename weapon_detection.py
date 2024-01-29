@@ -39,7 +39,7 @@
 #     except Exception as e:
 #         print(f"Error: {e}")
 
-# url = "http://192.168.137.55:8080/shot.jpg"  # Replace with your phone's IP and port
+# url = "http://192.168.159.233:8080/shot.jpg"  # Replace with your phone's IP and port
 # model = YOLO('gun_detection_yolo.pt')
 
 # color = (0, 255, 0)
