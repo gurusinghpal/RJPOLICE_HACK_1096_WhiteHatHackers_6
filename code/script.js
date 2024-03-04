@@ -295,3 +295,4 @@ setTimeout(function () {
     document.getElementById('map').style.display = 'block';
     initMap();
 }, 3000);
+
