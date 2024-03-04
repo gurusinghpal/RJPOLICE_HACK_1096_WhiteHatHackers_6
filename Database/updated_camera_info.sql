@@ -16,6 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `access_email_db`
+--
+
+DROP TABLE IF EXISTS `access_email_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `access_email_db` (
+  `EmailId` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `access_email_db`
+--
+
+LOCK TABLES `access_email_db` WRITE;
+/*!40000 ALTER TABLE `access_email_db` DISABLE KEYS */;
+INSERT INTO `access_email_db` VALUES ('akashkapoor7887@gmail.com'),('deepsinghjashan1313@gmail.com'),('namanrao400@gmail.com'),('gurusingh2585@gmail.com');
+/*!40000 ALTER TABLE `access_email_db` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `camera_information`
 --
 
@@ -57,6 +79,7 @@ CREATE TABLE `owner_information` (
   `House_No` varchar(255) DEFAULT NULL,
   `Camera_IPaddress` varchar(15) DEFAULT NULL,
   `Contact_No` varchar(15) DEFAULT NULL,
+  `Email` varchar(25) DEFAULT NULL,
   KEY `fk_camera_information` (`Camera_IPaddress`),
   CONSTRAINT `fk_camera_information` FOREIGN KEY (`Camera_IPaddress`) REFERENCES `camera_information` (`Camera_IPaddress`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -68,8 +91,35 @@ CREATE TABLE `owner_information` (
 
 LOCK TABLES `owner_information` WRITE;
 /*!40000 ALTER TABLE `owner_information` DISABLE KEYS */;
-INSERT INTO `owner_information` VALUES ('Akash Kapoor','A-123','192.168.1.101','+916397664401'),('Jashandeep Singh','HN-456','192.168.1.102','+919053893373'),('Guru Singh Pal','B-789','192.168.1.103','+919335500009'),('Naman Raj','H-234','192.168.1.104','+918307026632'),('Divyanshi Bhatia','AC-567','192.168.1.105','+917982192248'),('Avni Chauhan','J-890','192.168.1.106','+919711042223'),('Aman Kapoor','K-1234','192.168.1.107','+918791751443'),('Rohitashav Gautam','L-5678','192.168.1.108','+919417017652'),('Tejasvi Singh Pal','U-91011','192.168.1.109','+919034390005'),('Pawan Saini','P-1213','192.168.1.110','+917887485850'),('Sonakshi Bhatia','I-1415','192.168.1.111','+918979681582'),('Anushka Mishra','UG-1617','192.168.1.112','+918707309604');
+INSERT INTO `owner_information` VALUES ('Akash Kapoor','A-123','192.168.1.101','+916397664401','akashkapoor7887@gmail.com'),('Jashandeep Singh','HN-456','192.168.1.102','+919053893373','deepjashans111@gmail.com'),('Guru Singh Pal','B-789','192.168.1.103','+919335500009','babaj5604@gmail.com'),('Naman Raj','H-234','192.168.1.104','+918307026632','nitinrao7745@gmail.com'),('Divyanshi Bhatia','AC-567','192.168.1.105','+917982192248',NULL),('Avni Chauhan','J-890','192.168.1.106','+919711042223',NULL),('Aman Kapoor','K-1234','192.168.1.107','+918791751443',NULL),('Rohitashav Gautam','L-5678','192.168.1.108','+919417017652',NULL),('Tejasvi Singh Pal','U-91011','192.168.1.109','+919034390005',NULL),('Pawan Saini','P-1213','192.168.1.110','+917887485850',NULL),('Sonakshi Bhatia','I-1415','192.168.1.111','+918979681582',NULL),('Anushka Mishra','UG-1617','192.168.1.112','+918707309604',NULL);
 /*!40000 ALTER TABLE `owner_information` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `registered_users`
+--
+
+DROP TABLE IF EXISTS `registered_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `registered_users` (
+  `First_Name` varchar(50) DEFAULT NULL,
+  `Last_Name` varchar(50) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `Date_of_birth` varchar(50) DEFAULT NULL,
+  UNIQUE KEY `Email` (`Email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `registered_users`
+--
+
+LOCK TABLES `registered_users` WRITE;
+/*!40000 ALTER TABLE `registered_users` DISABLE KEYS */;
+INSERT INTO `registered_users` VALUES (NULL,NULL,NULL,NULL,NULL),('AKASH','KAPOOR','akashkapoor976@gmail.com','qwerty@123','2001-11-19'),('Jashandeep ','Singh','deepsinghjashan1313@gmail.com','jashan@123','2003-07-06'),('Guru Singh','Pal','gurusingh2585@gmail.com','guru@123','2003-09-21'),('Naman Raj','Yadav','namanrao400@gmail.com','naman@123','2003-02-23'),('Jason','Kapoor','kingakash1010@gmail.com','jason@9988','2003-10-19'),(NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `registered_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -81,4 +131,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-14  3:14:49
+-- Dump completed on 2024-03-04 15:13:39
